@@ -6,6 +6,7 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 use WP\Console\Core\Bootstrap\WordpressConsoleCore;
 use WP\Console\Utils\Site;
 use GuzzleHttp\Client;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class Wordpress
 {
@@ -32,10 +33,10 @@ class Wordpress
         $this->site = new Site($appRoot, new Client());
     }
 
-    public function boot()
+    public function boot(ContainerBuilder $container = null)
     {
         $wordpress = new WordpressConsoleCore($this->root, $this->appRoot, $this->site);
-        $container = $wordpress->boot();
+        $container = $wordpress->boot($container);
         $container->set('class_loader', $this->autoload);
 
         AnnotationRegistry::registerLoader([$this->autoload, "loadClass"]);

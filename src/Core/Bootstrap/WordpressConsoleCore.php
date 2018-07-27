@@ -5,6 +5,7 @@ namespace WP\Console\Core\Bootstrap;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use WP\Console\Core\DependencyInjection\ContainerBuilder;
 use WP\Console\Utils\Site;
 use WP\Console\Core\Utils\ArgvInputReader;
@@ -43,12 +44,15 @@ class WordpressConsoleCore
     }
 
     /**
-     * @return null|ContainerBuilder
+     * @param SymfonyContainerBuilder|null $container
+     *
+     * @return SymfonyContainerBuilder|ContainerBuilder
+     * @throws \Exception
      */
-    public function boot()
+    public function boot(SymfonyContainerBuilder $container = null)
     {
         $argvInputReader = new ArgvInputReader();
-        $container = new ContainerBuilder();
+        $container = $container ?? new ContainerBuilder();
         $loader = new YamlFileLoader($container, new FileLocator($this->root));
         $loader->load($this->root . '/services-core.yml');
 

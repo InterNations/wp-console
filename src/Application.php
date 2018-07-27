@@ -34,6 +34,16 @@ class Application extends BaseApplication
     }
 
     /**
+     * Get the Path
+     *
+     * @return string
+     */
+    public static function getPath()
+    {
+        return dirname(__DIR__);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function doRun(InputInterface $input, OutputInterface $output)
